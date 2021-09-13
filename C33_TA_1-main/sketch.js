@@ -127,7 +127,7 @@ function setup() {
   fruit_con_2 = new Link(rope2, fruit);
   fruit_con_3 = new Link(rope3, fruit)
 
-  bubble = createSprite(130, 555, 100, 100);
+  bubble = createSprite(150, 555, 100, 100);
   bubble.scale = 0.075
   bubble.addImage(bubbleImg);
 
@@ -164,6 +164,8 @@ function draw()
   if(collide(fruit,bunny)==true)
   {
     bunny.changeAnimation('eating');
+    World.remove(engine.world,fruit);
+    fruit = null;
     eating_sound.play();
   }
 
@@ -175,6 +177,12 @@ function draw()
     sad_sound.play();
     fruit=null;
      
+   }
+
+   if(collide(fruit, bubble) === true){
+      engine.world.gravity.y = -3;
+      bubble.position.x = fruit.position.x;
+      bubble.position.y = fruit.position.y;
    }
    
 }
@@ -208,10 +216,9 @@ function collide(body,sprite)
   if(body!=null)
         {
          var d = dist(body.position.x,body.position.y,sprite.position.x,sprite.position.y);
-          if(d<=80)
+          if(d<=20)
             {
-              World.remove(engine.world,fruit);
-               fruit = null;
+            
                return true; 
             }
             else{
